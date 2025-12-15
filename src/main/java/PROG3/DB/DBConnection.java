@@ -22,4 +22,8 @@ public class DBConnection {
 
         return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
+
+    public void closeDBConnection() throws SQLException {
+        getDBConnection().close();
+    }
 }

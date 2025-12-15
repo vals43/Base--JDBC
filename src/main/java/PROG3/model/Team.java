@@ -7,18 +7,18 @@ import java.util.Objects;
 public class Team {
     int id;
     String name;
-    Continent Continent;
-    List<Player> Players;
+    ContinentEnum continent;
+    List<Player> players;
 
-    public Team(int id, String name, Continent continent) {
+    public Team(int id, String name, ContinentEnum continent) {
         this.id = id;
         this.name = name;
-        Continent = continent;
-        Players = new ArrayList<>();
+        this.continent = continent;
+        players = new ArrayList<>();
     }
 
     public int getPlayerCount() {
-        return Players.size();
+        return players.size();
     }
     public int getId() {
         return id;
@@ -36,32 +36,32 @@ public class Team {
         this.name = name;
     }
 
-    public Continent getContinent() {
-        return Continent;
+    public ContinentEnum getContinent() {
+        return continent;
     }
 
-    public void setContinent(Continent continent) {
-        Continent = continent;
+    public void setContinent(ContinentEnum continent) {
+        continent = continent;
     }
 
     public List<Player> getPlayers() {
-        return Players;
+        return players;
     }
 
     public void setPlayers(List<Player> players) {
-        Players = players;
+        players = players;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return id == team.id && Objects.equals(name, team.name) && Continent == team.Continent && Objects.equals(Players, team.Players);
+        return id == team.id && Objects.equals(name, team.name) && continent == team.continent && Objects.equals(players, team.players);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, Continent, Players);
+        return Objects.hash(id, name, continent, players);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class Team {
         return "Team{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", Continent=" + Continent +
-                ", Players=" + Players +
+                ", Continent=" + continent +
+                ", Players=" + players +
                 '}';
     }
 }

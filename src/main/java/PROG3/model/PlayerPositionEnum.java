@@ -1,5 +1,5 @@
 package PROG3.model;
 
-public enum Position {
+public enum PlayerPositionEnum {
     GK,  DEF,  MIDF,  STR
 }

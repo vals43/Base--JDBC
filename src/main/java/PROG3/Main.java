@@ -9,7 +9,7 @@ public class Main {
             db.getDBConnection();
             System.out.println("Connexion PostgreSQL réussie !");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 }

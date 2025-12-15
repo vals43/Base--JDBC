@@ -1,6 +1,6 @@
 package PROG3.model;
 
-public enum Continent {
+public enum ContinentEnum {
     AFRICA,
     EUROPA,
     ASIA,

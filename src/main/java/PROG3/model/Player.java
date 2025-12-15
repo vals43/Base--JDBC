@@ -6,14 +6,14 @@ public class Player {
     int id;
     String name;
     int age;
-    Position Position;
+    PlayerPositionEnum position;
     Team team;
 
-    public Player(int id, String name, int age, Position position, Team team) {
+    public Player(int id, String name, int age, PlayerPositionEnum position, Team team) {
         this.id = id;
         this.name = name;
         this.age = age;
-        Position = position;
+        this.position = position;
         this.team = team;
     }
     public String getTeamName() {
@@ -43,12 +43,12 @@ public class Player {
         this.age = age;
     }
 
-    public Position getPosition() {
-        return Position;
+    public PlayerPositionEnum getPosition() {
+        return position;
     }
 
-    public void setPosition(Position position) {
-        Position = position;
+    public void setPosition(PlayerPositionEnum position) {
+        position = position;
     }
 
     public Team getTeam() {
@@ -63,12 +63,12 @@ public class Player {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return id == player.id && age == player.age && Objects.equals(name, player.name) && Position == player.Position && Objects.equals(team, player.team);
+        return id == player.id && age == player.age && Objects.equals(name, player.name) && position == player.position && Objects.equals(team, player.team);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, Position, team);
+        return Objects.hash(id, name, age, position, team);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Player {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", Position=" + Position +
+                ", Position=" + position +
                 ", team=" + team +
                 '}';
     }
