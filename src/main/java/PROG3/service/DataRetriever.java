@@ -237,4 +237,37 @@ public class DataRetriever {
         }
     }
 
+    public List<Team> findTeamsByPlayerName(String playerName) {
+
+        List<Team> teams = new ArrayList<>();
+
+        String query = """
+        SELECT t.id AS team_id, t.name AS team_name, t.continent AS team_continent
+        FROM Team t
+        JOIN Player p ON p.id_team = t.id
+        WHERE LOWER(p.name) LIKE LOWER(?)
+        GROUP BY t.id, t.name, t.continent
+        """;
+
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + playerName + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Team team = new Team(
+                        rs.getInt("team_id"),
+                        rs.getString("team_name"),
+                        ContinentEnum.valueOf(rs.getString("team_continent"))
+                );
+                teams.add(team);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return teams;
+    }
 }
