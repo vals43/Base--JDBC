@@ -121,5 +121,57 @@ public class DataRetriever {
         return players;
     }
 
+    public List<Player> createPlayers(List<Player> newPlayers) {
+
+        if (newPlayers == null || newPlayers.isEmpty()) {
+            throw new IllegalArgumentException("liste vide");
+        }
+
+        try (Connection connection = dbConnection.getDBConnection()) {
+
+            connection.setAutoCommit(false);
+
+            String insertQuery = """
+                INSERT INTO Player(name, age, position, id_team)
+                VALUES (?, ?, ?, ?)
+                """;
+
+            for (Player p : newPlayers) {
+                if (playerExists(connection, p.getName())) {
+                    connection.rollback();
+                    throw new IllegalStateException("deja existant : " + p.getName());
+                }
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(insertQuery)) {
+                for (Player p : newPlayers) {
+                    stmt.setString(1, p.getName());
+                    stmt.setInt(2, p.getAge());
+                    stmt.setString(3, p.getPosition().name());
+                    if (p.getTeam() != null) {
+                        stmt.setInt(4, p.getTeam().getId());
+                    } else {
+                        stmt.setNull(4, java.sql.Types.INTEGER);
+                    }
+                    stmt.executeUpdate();
+                }
+            }
+
+            connection.commit();
+            return newPlayers;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean playerExists(Connection connection, String name) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Player WHERE name = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        }
+    }
 
 }
